@@ -7,13 +7,16 @@ import dev.abrantes.monitor.infrastructure.ResponseDao
 import kotlinx.coroutines.flow.Flow
 
 class MainViewModel(private val responseDao: ResponseDao) : ViewModel() {
-    fun getAll() : Flow<List<Response>> = responseDao.getAll()
+    fun getAll(): Flow<List<Response>> = responseDao.getAll()
 
+    suspend fun insertNewRequest(uri: String, dat: String, status: Int, requestTime: Int) {
+        responseDao.addResponse(Response(uri = uri, dat = dat, status = status, requestTime = requestTime))
+    }
 }
 
-class MainViewModelFactory(private  val responseDao: ResponseDao): ViewModelProvider.Factory {
+class MainViewModelFactory(private val responseDao: ResponseDao) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if(modelClass.isAssignableFrom(MainViewModel::class.java)){
+        if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
             return MainViewModel(responseDao) as T
         }

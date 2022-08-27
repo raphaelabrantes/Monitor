@@ -10,8 +10,9 @@ import java.util.Date
 
 @Entity
 data class Response(
-    @PrimaryKey val uri: String,
-    @NotNull val date: Date,
+    @PrimaryKey(autoGenerate = true) @NotNull  val id: Int,
+    @NotNull val uri: String,
+    @NotNull val dat: String,
     @NotNull val status: Int,
-    @NotNull val requestTime: Long
+    @ColumnInfo(name="request_time") @NotNull val requestTime: Int
 )

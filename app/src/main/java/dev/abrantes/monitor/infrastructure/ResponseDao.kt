@@ -9,6 +9,9 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ResponseDao {
+    @Query("SELECT * FROM response")
+    fun getAll(): Flow<List<Response>>
+
     @Query("SELECT * FROM response WHERE uri =:uri")
     fun getAllByUri(uri: String): Flow<List<Response>>
 

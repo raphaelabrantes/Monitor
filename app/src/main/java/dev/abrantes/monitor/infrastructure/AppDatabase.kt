@@ -6,9 +6,11 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 
-@Database(entities = [Response::class], version = 1)
+@Database(entities = [Response::class, RegisterUrl::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun responseDao(): ResponseDao
+
+    abstract fun registerUrlDao(): RegisterUrlDao
 
     companion object {
         @Volatile

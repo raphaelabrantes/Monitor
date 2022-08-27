@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import android.webkit.URLUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import dev.abrantes.monitor.MonitorApplication
 import dev.abrantes.monitor.databinding.FragmentRegisterNewUriBinding
+import kotlinx.coroutines.launch
 
 class RegisterNewUri : Fragment() {
 
@@ -18,7 +20,10 @@ class RegisterNewUri : Fragment() {
 
 
     private val viewModel: MainViewModel by activityViewModels {
-        MainViewModelFactory((activity?.application as MonitorApplication).database.responseDao())
+        MainViewModelFactory(
+            (activity?.application as MonitorApplication).database.responseDao(),
+            (activity?.application as MonitorApplication).database.registerUrlDao()
+        )
     }
 
     override fun onCreateView(
@@ -33,7 +38,14 @@ class RegisterNewUri : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.submitNewUrl.setOnClickListener {
             val uri = binding.healthUrl.text.toString()
-            if(checkValidUri(uri)){
+            var schema = ""
+            if (uri.isNotEmpty() && !(uri.startsWith("http://", true) || uri.startsWith("https://", true))) {
+                schema = if (binding.httpsSwitch.isActivated) "https://" else "http://"
+            }
+            if (checkValidUri(schema + uri)) {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    viewModel.insertNewRegisterUrl(schema + uri)
+                }
                 val action = RegisterNewUriDirections.actionRegisterNewUriToMainFragment()
                 view.findNavController().navigate(action)
             }
@@ -41,19 +53,15 @@ class RegisterNewUri : Fragment() {
     }
 
     private fun checkValidUri(uri: String): Boolean {
-        var schema = ""
         if (uri.isEmpty()) {
             binding.healthUrl.error = "Empty url"
             return false
         }
-        if (!(uri.startsWith("http://", true) || uri.startsWith("https://", true))) {
-            schema = if (binding.httpsSwitch.isActivated) "https://" else "http://"
-        }
-        if (!URLUtil.isValidUrl(schema + uri)) {
+        if (!URLUtil.isValidUrl(uri)) {
             binding.healthUrl.error = "This url is not valid"
             return false
         }
-        binding.healthUrl.error = ""
+        binding.healthUrl.error = null
         return true
     }
 

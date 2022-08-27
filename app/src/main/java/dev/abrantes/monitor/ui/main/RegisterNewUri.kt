@@ -8,11 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import dev.abrantes.monitor.MonitorApplication
-import dev.abrantes.monitor.databinding.FragmentMainBinding
+import dev.abrantes.monitor.databinding.FragmentRegisterNewUriBinding
 
-class MainFragment : Fragment() {
+class RegisterNewUri: Fragment() {
 
-    private var _binding: FragmentMainBinding? = null
+    private var _binding: FragmentRegisterNewUriBinding? = null
     private val binding get() = _binding!!
 
 
@@ -24,14 +24,14 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentMainBinding.inflate(inflater, container, false)
+        _binding = FragmentRegisterNewUriBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.addHealthCheck.setOnClickListener {
-            val action = MainFragmentDirections.actionMainFragmentToRegisterNewUri()
+      binding.submitNewUrl.setOnClickListener {
+            val action = RegisterNewUriDirections.actionRegisterNewUriToMainFragment()
             view.findNavController().navigate(action)
         }
     }
@@ -40,5 +40,6 @@ class MainFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
 
 }

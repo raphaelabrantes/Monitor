@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   tools:context="ui.main.RegisterNewUri">
+
+
+    <Button
+            android:text="Create"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/submitNewUrl"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="16dp" android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"/>
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="textUri"
+            android:ems="10"
+            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="16dp"
+            android:id="@+id/health_url" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp" android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:hint="Health Check Url"/>
+    <Switch
+            android:text="HTTPS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/https_switch"
+            android:checked="true" android:minHeight="48dp"
+            app:layout_constraintTop_toBottomOf="@+id/health_url" android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp" app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="UseSwitchCompatOrMaterialXml"/>
+    <RadioGroup
+            android:id="@+id/timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" tools:layout_editor_absoluteY="94dp"
+            app:layout_constraintTop_toBottomOf="@id/https_switch"
+            app:layout_constraintStart_toStartOf="@id/health_url"
+    >
+        <RadioButton android:text="Every second" android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"/>
+        <RadioButton android:text="Every minute" android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"/>
+        <RadioButton android:text="Every 5 minutes" android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"/>
+    </RadioGroup>
+</androidx.constraintlayout.widget.ConstraintLayout>

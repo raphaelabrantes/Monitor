@@ -5,5 +5,11 @@
             app:startDestination="@id/mainFragment">
 
     <fragment android:id="@+id/mainFragment" android:name="dev.abrantes.monitor.ui.main.MainFragment"
-              android:label="fragment_main" tools:layout="@layout/fragment_main"/>
+              android:label="fragment_main" tools:layout="@layout/fragment_main">
+        <action android:id="@+id/action_mainFragment_to_registerNewUri" app:destination="@id/registerNewUri"/>
+    </fragment>
+    <fragment android:id="@+id/registerNewUri" android:name="dev.abrantes.monitor.ui.main.RegisterNewUri"
+              android:label="RegisterNewUri">
+        <action android:id="@+id/action_registerNewUri_to_mainFragment" app:destination="@id/mainFragment"/>
+    </fragment>
 </navigation>

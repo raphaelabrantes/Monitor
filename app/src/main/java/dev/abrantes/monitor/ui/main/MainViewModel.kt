@@ -6,6 +6,7 @@ import dev.abrantes.monitor.infrastructure.RegisterUrl
 import dev.abrantes.monitor.infrastructure.RegisterUrlDao
 import dev.abrantes.monitor.infrastructure.Response
 import dev.abrantes.monitor.infrastructure.ResponseDao
+import dev.abrantes.monitor.infrastructure.TIME
 import kotlinx.coroutines.flow.Flow
 
 class MainViewModel(private val responseDao: ResponseDao, private val registerUrlDao: RegisterUrlDao) : ViewModel() {
@@ -13,8 +14,8 @@ class MainViewModel(private val responseDao: ResponseDao, private val registerUr
 
     fun getAllRegisterUrl(): Flow<List<RegisterUrl>> = registerUrlDao.getAll()
 
-    suspend fun insertNewRegisterUrl(uri: String) {
-        registerUrlDao.addRegisterUrl(RegisterUrl(uri=uri))
+    suspend fun insertNewRegisterUrl(uri: String, repeat: TIME) {
+        registerUrlDao.addRegisterUrl(RegisterUrl(uri=uri, repeat = repeat))
     }
 
     suspend fun insertNewRequest(uri: String, dat: String, status: Int, requestTime: Int) {

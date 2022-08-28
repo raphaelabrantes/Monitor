@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import dev.abrantes.monitor.MonitorApplication
 import dev.abrantes.monitor.databinding.FragmentRegisterNewUriBinding
+import dev.abrantes.monitor.infrastructure.TIME
 import kotlinx.coroutines.launch
 
 class RegisterNewUri : Fragment() {
@@ -43,13 +44,23 @@ class RegisterNewUri : Fragment() {
                 schema = if (binding.httpsSwitch.isActivated) "https://" else "http://"
             }
             if (checkValidUri(schema + uri)) {
+                val repeat: TIME = getRepetition()
                 viewLifecycleOwner.lifecycleScope.launch {
-                    viewModel.insertNewRegisterUrl(schema + uri)
+                    viewModel.insertNewRegisterUrl(schema + uri, repeat)
                 }
                 val action = RegisterNewUriDirections.actionRegisterNewUriToMainFragment()
                 view.findNavController().navigate(action)
             }
         }
+    }
+
+    private fun getRepetition(): TIME {
+        when (binding.timer.checkedRadioButtonId) {
+            binding.everySecond.id -> return TIME.ONE_SECOND
+            binding.everyMinute.id -> return TIME.ONE_MINUTE
+            binding.every5Minutes.id -> return TIME.FIVE_MINUTE
+        }
+        return TIME.ONE_MINUTE
     }
 
     private fun checkValidUri(uri: String): Boolean {

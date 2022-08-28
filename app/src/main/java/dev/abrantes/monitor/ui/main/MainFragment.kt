@@ -6,18 +6,26 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.coroutineScope
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import dev.abrantes.monitor.MonitorApplication
 import dev.abrantes.monitor.databinding.FragmentMainBinding
+import kotlinx.coroutines.launch
 
 class MainFragment : Fragment() {
 
     private var _binding: FragmentMainBinding? = null
+    private lateinit var recyclerView: RecyclerView
     private val binding get() = _binding!!
 
 
     private val viewModel: MainViewModel by activityViewModels {
-        MainViewModelFactory((activity?.application as MonitorApplication).database.responseDao())
+        MainViewModelFactory(
+            (activity?.application as MonitorApplication).database.responseDao(),
+            (activity?.application as MonitorApplication).database.registerUrlDao()
+        )
     }
 
     override fun onCreateView(
@@ -30,10 +38,20 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        recyclerView = binding.recyclerMain
+        recyclerView.layoutManager = LinearLayoutManager(this.context)
+        val adapter = MainGridAdapter()
         binding.addHealthCheck.setOnClickListener {
             val action = MainFragmentDirections.actionMainFragmentToRegisterNewUri()
             view.findNavController().navigate(action)
         }
+        lifecycle.coroutineScope.launch{
+            viewModel.getAllRegisterUrl().collect{
+                adapter.submitList(it)
+            }
+        }
+        recyclerView.adapter = adapter
     }
 
     override fun onDestroyView() {

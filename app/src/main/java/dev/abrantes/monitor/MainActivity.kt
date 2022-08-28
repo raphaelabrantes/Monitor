@@ -1,15 +1,11 @@
 package dev.abrantes.monitor
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.TextView
-import androidx.databinding.BindingAdapter
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.NavHost
 import androidx.navigation.ui.setupActionBarWithNavController
 import dev.abrantes.monitor.databinding.ActivityMainBinding
-import dev.abrantes.monitor.infrastructure.Response
-import dev.abrantes.monitor.ui.main.MainFragment
 
 class MainActivity : AppCompatActivity() {
 

@@ -15,15 +15,15 @@
             android:layout_marginBottom="16dp" android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"/>
     <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="250dp"
+            android:layout_height="48dp"
             android:inputType="textUri"
             android:ems="10"
-            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="16dp"
-            android:id="@+id/health_url" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="16dp" android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:hint="Health Check Url"/>
+            android:id="@+id/health_url"
+            android:hint="Health Check Url"
+            app:layout_constraintStart_toEndOf="@+id/type_connection"
+            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="24dp"
+    />
     <Switch
             android:text="HTTPS"
             android:layout_width="wrap_content"
@@ -35,11 +35,10 @@
     <RadioGroup
             android:id="@+id/timer"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" tools:layout_editor_absoluteY="94dp"
+            android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/https_switch"
-            app:layout_constraintStart_toStartOf="@id/health_url"
             android:checkedButton="@id/every_minute"
-    >
+            app:layout_constraintStart_toStartOf="@+id/type_connection">
         <RadioButton
                 android:id="@+id/every_second"
                 android:text="Every second"
@@ -56,4 +55,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
     </RadioGroup>
+    <TextView
+            android:text="https://"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginTop="36dp"
+            android:layout_marginStart="16dp" android:id="@+id/type_connection" android:textSize="20sp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

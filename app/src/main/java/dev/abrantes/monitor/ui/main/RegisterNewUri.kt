@@ -1,10 +1,10 @@
 package dev.abrantes.monitor.ui.main
 
 import android.os.Bundle
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.URLUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -37,16 +37,22 @@ class RegisterNewUri : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.submitNewUrl.setOnClickListener {
-            val uri = binding.healthUrl.text.toString()
-            var schema = ""
-            if (uri.isNotEmpty() && !(uri.startsWith("http://", true) || uri.startsWith("https://", true))) {
-                schema = if (binding.httpsSwitch.isActivated) "https://" else "http://"
+        binding.httpsSwitch.setOnCheckedChangeListener { _, on ->
+            run {
+                if (on) {
+                    binding.typeConnection.text = "https://"
+                } else {
+                    binding.typeConnection.text = "http://"
+                }
+
             }
-            if (checkValidUri(schema + uri)) {
+        }
+        binding.submitNewUrl.setOnClickListener {
+            val uri = binding.typeConnection.text.toString() + binding.healthUrl.text.toString()
+            if (checkValidUri(uri)) {
                 val repeat: TIME = getRepetition()
                 viewLifecycleOwner.lifecycleScope.launch {
-                    viewModel.insertNewRegisterUrl(schema + uri, repeat)
+                    viewModel.insertNewRegisterUrl(uri, repeat)
                 }
                 val action = RegisterNewUriDirections.actionRegisterNewUriToMainFragment()
                 view.findNavController().navigate(action)
@@ -63,12 +69,12 @@ class RegisterNewUri : Fragment() {
         return TIME.ONE_MINUTE
     }
 
-    private fun checkValidUri(uri: String): Boolean {
-        if (uri.isEmpty()) {
+    private fun checkValidUri(url: String): Boolean {
+        if ((url == "http://") || url == "https://") {
             binding.healthUrl.error = "Empty url"
             return false
         }
-        if (!URLUtil.isValidUrl(uri)) {
+        if (!Patterns.WEB_URL.matcher(url).matches()) {
             binding.healthUrl.error = "This url is not valid"
             return false
         }

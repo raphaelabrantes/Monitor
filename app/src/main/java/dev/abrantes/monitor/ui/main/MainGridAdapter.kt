@@ -23,6 +23,7 @@ class MainGridAdapter : ListAdapter<RegisterUrl, MainGridAdapter.ViewHolder>(Dif
     class ViewHolder(private var binding: GridItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(registerUrl: RegisterUrl) {
             binding.registerUriText.text = registerUrl.uri
+            binding.repeat.text = registerUrl.repeat.toString()
         }
     }
 

@@ -14,6 +14,9 @@ class MainViewModel(private val responseDao: ResponseDao, private val registerUr
 
     fun getAllRegisterUrl(): Flow<List<RegisterUrl>> = registerUrlDao.getAll()
 
+    //FIXME: Change calls to use id instead of uri, need to change the Entity to have 2 primary keys uri and repeation
+    fun getAllResponseWithUri(uri: String): Flow<List<Response>> = responseDao.getAllByUri(uri)
+
     suspend fun insertNewRegisterUrl(uri: String, repeat: TIME) {
         registerUrlDao.addRegisterUrl(RegisterUrl(uri=uri, repeat = repeat))
     }

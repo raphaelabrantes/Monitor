@@ -18,6 +18,10 @@ class MainViewModel(private val responseDao: ResponseDao, private val registerUr
         registerUrlDao.addRegisterUrl(RegisterUrl(uri=uri, repeat = repeat))
     }
 
+    suspend fun deleteRegisterUrl(registerUrl: RegisterUrl){
+        registerUrlDao.deleteRegisterUrl(registerUrl)
+    }
+
     suspend fun insertNewRequest(uri: String, dat: String, status: Int, requestTime: Int) {
         responseDao.addResponse(Response(uri = uri, dat = dat, status = status, requestTime = requestTime))
     }

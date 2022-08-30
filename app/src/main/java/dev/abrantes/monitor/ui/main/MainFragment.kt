@@ -41,7 +41,11 @@ class MainFragment : Fragment() {
 
         recyclerView = binding.recyclerMain
         recyclerView.layoutManager = LinearLayoutManager(this.context)
-        val adapter = MainGridAdapter()
+        val adapter = MainGridAdapter {
+            lifecycle.coroutineScope.launch {
+                viewModel.deleteRegisterUrl(registerUrl = it)
+            }
+        }
         binding.addHealthCheck.setOnClickListener {
             val action = MainFragmentDirections.actionMainFragmentToRegisterNewUri()
             view.findNavController().navigate(action)

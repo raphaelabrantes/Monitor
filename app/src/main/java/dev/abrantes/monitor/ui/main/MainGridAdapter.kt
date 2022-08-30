@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.abrantes.monitor.databinding.GridItemBinding
 import dev.abrantes.monitor.infrastructure.RegisterUrl
 
-class MainGridAdapter : ListAdapter<RegisterUrl, MainGridAdapter.ViewHolder>(DiffCallback) {
+class MainGridAdapter(private val handler: (register: RegisterUrl) -> Unit) : ListAdapter<RegisterUrl, MainGridAdapter.ViewHolder>(DiffCallback) {
 
     companion object DiffCallback : DiffUtil.ItemCallback<RegisterUrl>() {
         override fun areItemsTheSame(oldItem: RegisterUrl, newItem: RegisterUrl): Boolean {
@@ -20,15 +20,20 @@ class MainGridAdapter : ListAdapter<RegisterUrl, MainGridAdapter.ViewHolder>(Dif
         }
     }
 
-    class ViewHolder(private var binding: GridItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(private var binding: GridItemBinding, private var handler: (register: RegisterUrl) -> Unit) : RecyclerView.ViewHolder(binding.root) {
         fun bind(registerUrl: RegisterUrl) {
-            binding.registerUriText.text = registerUrl.uri
-            binding.repeat.text = registerUrl.repeat.toString()
+            var text = registerUrl.uri
+            if(text.length > 29) text = text.replaceRange(29 until text.length, "...")
+            binding.registerUriText.text = text
+            binding.repeat.text = registerUrl.repeat.toString().lowercase().replace("_", " ")
+            binding.deleteButton.setOnClickListener {
+                handler(registerUrl)
+            }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(GridItemBinding.inflate(LayoutInflater.from(parent.context)))
+        return ViewHolder(GridItemBinding.inflate(LayoutInflater.from(parent.context)), handler)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

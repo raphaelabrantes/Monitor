@@ -1,6 +1,7 @@
 package dev.abrantes.monitor.infrastructure
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -15,4 +16,7 @@ interface RegisterUrlDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addRegisterUrl(registerUrl: RegisterUrl)
+
+    @Delete
+    suspend fun deleteRegisterUrl(registerUrl: RegisterUrl)
 }

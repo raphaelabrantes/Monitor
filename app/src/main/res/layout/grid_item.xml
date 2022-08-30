@@ -3,20 +3,21 @@
                                                    xmlns:app="http://schemas.android.com/apk/res-auto"
                                                    xmlns:tools="http://schemas.android.com/tools"
                                                    android:layout_height="match_parent"
-                                                   android:layout_width="match_parent">
-    <TextView
-            android:id="@+id/register_uri_text"
-            android:layout_width="182dp" android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="16dp" tools:text="URL" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="16dp"/>
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-              android:id="@+id/repeat" app:layout_constraintTop_toTopOf="parent"
-              android:layout_marginTop="16dp" app:layout_constraintStart_toEndOf="@+id/register_uri_text"
-              tools:text="REPEAT" android:layout_marginStart="20dp"/>
-    <Button android:layout_width="20dp" android:layout_height="24dp"
-            android:background="@drawable/ic_baseline_delete_24"
-            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="16dp"
-            app:layout_constraintStart_toEndOf="@+id/repeat" android:layout_marginStart="20dp"
-            android:id="@+id/delete_button"/>
+                                                   android:layout_width="match_parent"
+                                                   android:id="@+id/grid_item_layout">
+        <TextView
+                android:id="@+id/register_uri_text"
+                android:layout_width="182dp" android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="16dp" tools:text="URL" app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="16dp"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:id="@+id/repeat" app:layout_constraintTop_toTopOf="parent"
+                  android:layout_marginTop="16dp" app:layout_constraintStart_toEndOf="@+id/register_uri_text"
+                  tools:text="REPEAT" android:layout_marginStart="20dp"/>
+        <Button android:layout_width="20dp" android:layout_height="24dp"
+                android:background="@drawable/ic_baseline_delete_24"
+                app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="16dp"
+                app:layout_constraintStart_toEndOf="@+id/repeat" android:layout_marginStart="20dp"
+                android:id="@+id/delete_button"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.abrantes.monitor.MonitorApplication
 import dev.abrantes.monitor.databinding.FragmentMainBinding
+import dev.abrantes.monitor.infrastructure.RegisterUrl
 import kotlinx.coroutines.launch
 
 class MainFragment : Fragment() {
@@ -42,27 +43,38 @@ class MainFragment : Fragment() {
 
         recyclerView = binding.recyclerMain
         recyclerView.layoutManager = LinearLayoutManager(this.context)
-        val adapter = MainGridAdapter { registerUrl ->
-            val builder = AlertDialog.Builder(this.context)
-            builder.setMessage("Are you sure you want to delete ${registerUrl.uri}?")
-                .setPositiveButton("Yes") { _, _ ->
-                    lifecycle.coroutineScope.launch {
-                        viewModel.deleteRegisterUrl(registerUrl)
-                    }
-                }
-                .setNegativeButton("No") { _, _ -> }
-            builder.create().show()
-        }
+        val adapter = MainGridAdapter(
+            { registerUrl ->
+                showDialogAndDeleteRegisterUrl(registerUrl)
+            },
+            { registerUrl ->
+                val action = MainFragmentDirections.actionMainFragmentToMoreInfoFragment(registerUrl.uri)
+                view.findNavController().navigate(action)
+            }
+        )
+
         binding.addHealthCheck.setOnClickListener {
             val action = MainFragmentDirections.actionMainFragmentToRegisterNewUri()
             view.findNavController().navigate(action)
         }
-        lifecycle.coroutineScope.launch{
-            viewModel.getAllRegisterUrl().collect{
+        lifecycle.coroutineScope.launch {
+            viewModel.getAllRegisterUrl().collect {
                 adapter.submitList(it)
             }
         }
         recyclerView.adapter = adapter
+    }
+
+    private fun showDialogAndDeleteRegisterUrl(registerUrl: RegisterUrl) {
+        val builder = AlertDialog.Builder(this.context)
+        builder.setMessage("Are you sure you want to delete ${registerUrl.uri}?")
+            .setPositiveButton("Yes") { _, _ ->
+                lifecycle.coroutineScope.launch {
+                    viewModel.deleteRegisterUrl(registerUrl)
+                }
+            }
+            .setNegativeButton("No") { _, _ -> }
+        builder.create().show()
     }
 
     override fun onDestroyView() {

@@ -1,5 +1,6 @@
 package dev.abrantes.monitor.ui.main
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -41,10 +42,16 @@ class MainFragment : Fragment() {
 
         recyclerView = binding.recyclerMain
         recyclerView.layoutManager = LinearLayoutManager(this.context)
-        val adapter = MainGridAdapter {
-            lifecycle.coroutineScope.launch {
-                viewModel.deleteRegisterUrl(registerUrl = it)
-            }
+        val adapter = MainGridAdapter { registerUrl ->
+            val builder = AlertDialog.Builder(this.context)
+            builder.setMessage("Are you sure you want to delete ${registerUrl.uri}?")
+                .setPositiveButton("Yes") { _, _ ->
+                    lifecycle.coroutineScope.launch {
+                        viewModel.deleteRegisterUrl(registerUrl)
+                    }
+                }
+                .setNegativeButton("No") { _, _ -> }
+            builder.create().show()
         }
         binding.addHealthCheck.setOnClickListener {
             val action = MainFragmentDirections.actionMainFragmentToRegisterNewUri()

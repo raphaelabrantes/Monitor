@@ -14,10 +14,10 @@
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                   android:id="@+id/repeat" app:layout_constraintTop_toTopOf="parent"
                   android:layout_marginTop="16dp" app:layout_constraintStart_toEndOf="@+id/register_uri_text"
-                  tools:text="REPEAT" android:layout_marginStart="20dp"/>
+                  tools:text="REPEAT" android:layout_marginStart="10dp"/>
         <Button android:layout_width="20dp" android:layout_height="24dp"
                 android:background="@drawable/ic_baseline_delete_24"
                 app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="16dp"
-                app:layout_constraintStart_toEndOf="@+id/repeat" android:layout_marginStart="20dp"
+                app:layout_constraintStart_toEndOf="@+id/repeat" android:layout_marginStart="10dp"
                 android:id="@+id/delete_button"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

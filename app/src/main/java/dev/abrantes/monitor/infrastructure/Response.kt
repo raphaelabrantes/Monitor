@@ -12,5 +12,5 @@ data class Response(
     @NotNull val uri: String,
     @NotNull val dat: String,
     @NotNull val status: Int,
-    @ColumnInfo(name = "request_time") @NotNull val requestTime: Int
+    @ColumnInfo(name = "request_time") @NotNull val requestTime: Long
 )

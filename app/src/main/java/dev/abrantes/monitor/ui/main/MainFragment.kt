@@ -26,8 +26,14 @@ class MainFragment : Fragment() {
     private val viewModel: MainViewModel by activityViewModels {
         MainViewModelFactory(
             (activity?.application as MonitorApplication).database.responseDao(),
-            (activity?.application as MonitorApplication).database.registerUrlDao()
+            (activity?.application as MonitorApplication).database.registerUrlDao(),
+            application = activity?.application as MonitorApplication
         )
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -40,7 +46,6 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         recyclerView = binding.recyclerMain
         recyclerView.layoutManager = LinearLayoutManager(this.context)
         val adapter = MainGridAdapter(

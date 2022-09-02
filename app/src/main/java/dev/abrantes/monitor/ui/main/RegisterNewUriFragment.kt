@@ -14,7 +14,7 @@ import dev.abrantes.monitor.databinding.FragmentRegisterNewUriBinding
 import dev.abrantes.monitor.infrastructure.TIME
 import kotlinx.coroutines.launch
 
-class RegisterNewUri : Fragment() {
+class RegisterNewUriFragment : Fragment() {
 
     private var _binding: FragmentRegisterNewUriBinding? = null
     private val binding get() = _binding!!
@@ -23,9 +23,15 @@ class RegisterNewUri : Fragment() {
     private val viewModel: MainViewModel by activityViewModels {
         MainViewModelFactory(
             (activity?.application as MonitorApplication).database.responseDao(),
-            (activity?.application as MonitorApplication).database.registerUrlDao()
+            (activity?.application as MonitorApplication).database.registerUrlDao(),
+        application = activity?.application as MonitorApplication
         )
     }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,7 +60,8 @@ class RegisterNewUri : Fragment() {
                 viewLifecycleOwner.lifecycleScope.launch {
                     viewModel.insertNewRegisterUrl(uri, repeat)
                 }
-                val action = RegisterNewUriDirections.actionRegisterNewUriToMainFragment()
+                viewModel.startRequest(uri, repeat)
+                val action = RegisterNewUriFragmentDirections.actionRegisterNewUriToMainFragment()
                 view.findNavController().navigate(action)
             }
         }
@@ -62,11 +69,11 @@ class RegisterNewUri : Fragment() {
 
     private fun getRepetition(): TIME {
         when (binding.timer.checkedRadioButtonId) {
-            binding.everySecond.id -> return TIME.ONE_SECOND
-            binding.everyMinute.id -> return TIME.ONE_MINUTE
-            binding.every5Minutes.id -> return TIME.FIVE_MINUTE
+            binding.every15Minutes.id -> return TIME.FIFTEEN_MINUTES
+            binding.every20Minutes.id -> return TIME.TWENTY_MINUTES
+            binding.every30Minutes.id -> return TIME.THIRTY_MINUTES
         }
-        return TIME.ONE_MINUTE
+        return TIME.TWENTY_MINUTES
     }
 
     private fun checkValidUri(url: String): Boolean {

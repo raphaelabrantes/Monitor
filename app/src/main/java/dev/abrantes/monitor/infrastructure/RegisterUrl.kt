@@ -6,9 +6,9 @@ import org.jetbrains.annotations.NotNull
 
 
 enum class TIME {
-    ONE_SECOND,
-    ONE_MINUTE,
-    FIVE_MINUTE,
+    FIFTEEN_MINUTES,
+    TWENTY_MINUTES,
+    THIRTY_MINUTES,
 }
 @Entity
 data class RegisterUrl(
@@ -16,4 +16,4 @@ data class RegisterUrl(
     @NotNull var uri: String,
     @NotNull var repeat: TIME,
 
-)
+    )

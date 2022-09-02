@@ -27,7 +27,7 @@ class MoreInfoAdapter :
         fun bind(response: Response) {
             binding.statusInfo.text = response.status.toString()
             binding.datRequest.text = response.dat
-            binding.timeRequest.text = response.requestTime.toString()
+            binding.timeRequest.text = response.requestTime.toString() + "ms"
 
         }
     }

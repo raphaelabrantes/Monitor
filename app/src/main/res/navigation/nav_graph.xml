@@ -5,16 +5,16 @@
             app:startDestination="@id/mainFragment">
 
     <fragment android:id="@+id/mainFragment" android:name="dev.abrantes.monitor.ui.main.MainFragment"
-              android:label="fragment_main" tools:layout="@layout/fragment_main">
+              android:label="Monitor" tools:layout="@layout/fragment_main">
         <action android:id="@+id/action_mainFragment_to_registerNewUri" app:destination="@id/registerNewUri"/>
         <action android:id="@+id/action_mainFragment_to_moreInfoFragment" app:destination="@id/moreInfoFragment"/>
     </fragment>
-    <fragment android:id="@+id/registerNewUri" android:name="dev.abrantes.monitor.ui.main.RegisterNewUri"
-              android:label="RegisterNewUri">
+    <fragment android:id="@+id/registerNewUri" android:name="dev.abrantes.monitor.ui.main.RegisterNewUriFragment"
+              android:label="Register New Url">
         <action android:id="@+id/action_registerNewUri_to_mainFragment" app:destination="@id/mainFragment"/>
     </fragment>
     <fragment android:id="@+id/moreInfoFragment" android:name="dev.abrantes.monitor.ui.main.MoreInfoFragment"
-              android:label="MoreInfoFragment">
+              android:label="Requests">
         <argument android:name="uri" app:argType="string"/>
     </fragment>
 </navigation>
